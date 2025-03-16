@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <tuple>
+#include <stack>
+#include <cctype>
+#include <sstream>
 
 using namespace std;
 
@@ -14,34 +16,89 @@ struct Triple {
     string op, arg1, arg2;
 };
 
+vector<Quadruple> quadruples;
+vector<Triple> triples;
+int tempCount = 0; // Counter for temporary variables
+
+// Function to generate a new temporary variable
+string newTemp() {
+    return "t" + to_string(tempCount++);
+}
+
+// Function to check if a character is an operator
+bool isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+// Function to get operator precedence
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+}
+
+// Function to convert infix expression to postfix
+vector<string> infixToPostfix(string expr) {
+    vector<string> postfix;
+    stack<char> operators;
+    string operand;
+
+    for (char c : expr) {
+        if (isalnum(c)) {
+            operand += c;
+        } else {
+            if (!operand.empty()) {
+                postfix.push_back(operand);
+                operand.clear();
+            }
+            if (isOperator(c)) {
+                while (!operators.empty() && precedence(operators.top()) >= precedence(c)) {
+                    postfix.push_back(string(1, operators.top()));
+                    operators.pop();
+                }
+                operators.push(c);
+            }
+        }
+    }
+    if (!operand.empty()) postfix.push_back(operand);
+    while (!operators.empty()) {
+        postfix.push_back(string(1, operators.top()));
+        operators.pop();
+    }
+    return postfix;
+}
+
+// Function to generate quadruple and triple representations
+void generateRepresentations(vector<string> postfix) {
+    stack<string> operands;
+    for (const string &token : postfix) {
+        if (isOperator(token[0]) && token.length() == 1) {
+            string op2 = operands.top(); operands.pop();
+            string op1 = operands.top(); operands.pop();
+            string temp = newTemp();
+            
+            quadruples.push_back({token, op1, op2, temp});
+            triples.push_back({token, op1, op2});
+            
+            operands.push(temp);
+        } else {
+            operands.push(token);
+        }
+    }
+    quadruples.push_back({"=", operands.top(), "", "RESULT"});
+    triples.push_back({"=", operands.top(), "RESULT"});
+}
+
 int main() {
-    vector<Quadruple> quadruples;
-    vector<Triple> triples;
+    string expression;
+    cout << "Enter an arithmetic expression: ";
+    getline(cin, expression);
     
-    // Expression: A = B + C − D * E + G
-    // Step-wise breakdown:
-    // t1 = D * E
-    // t2 = B + C
-    // t3 = t2 - t1
-    // t4 = t3 + G
-    // A = t4
-
-    // Quadruple Representation
-    quadruples.push_back({"*", "D", "E", "t1"});
-    quadruples.push_back({"+", "B", "C", "t2"});
-    quadruples.push_back({"-", "t2", "t1", "t3"});
-    quadruples.push_back({"+", "t3", "G", "t4"});
-    quadruples.push_back({"=", "t4", "", "A"});
-
-    // Triple Representation
-    triples.push_back({"*", "D", "E"});   // (0) t1 = D * E
-    triples.push_back({"+", "B", "C"});   // (1) t2 = B + C
-    triples.push_back({"-", "1", "0"});   // (2) t3 = t2 - t1
-    triples.push_back({"+", "2", "G"});   // (3) t4 = t3 + G
-    triples.push_back({"=", "3", "A"});   // (4) A = t4
-
+    vector<string> postfix = infixToPostfix(expression);
+    generateRepresentations(postfix);
+    
     // Display Quadruple Representation
-    cout << "Quadruple Representation:\n";
+    cout << "\nQuadruple Representation:\n";
     cout << "---------------------------------------------------\n";
     cout << "| Operator | Arg1  | Arg2  | Result  |\n";
     cout << "---------------------------------------------------\n";
