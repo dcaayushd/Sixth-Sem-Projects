@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "nB8AV/dBhdE=",
+  "success": true,
+  "projectFilePath": "/Users/aayush/Development/Projects/Sixth Semester Projects/ASP.NET CORE/WebApplication1/WebApplication1.csproj",
+  "expectedPackageFiles": [
+    "/Users/aayush/.nuget/packages/microsoft.dotnet.ilcompiler/9.0.1/microsoft.dotnet.ilcompiler.9.0.1.nupkg.sha512",
+    "/Users/aayush/.nuget/packages/microsoft.net.illink.tasks/9.0.1/microsoft.net.illink.tasks.9.0.1.nupkg.sha512",
+    "/Users/aayush/.nuget/packages/runtime.osx-arm64.microsoft.dotnet.ilcompiler/9.0.1/runtime.osx-arm64.microsoft.dotnet.ilcompiler.9.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
