@@ -11,12 +11,14 @@ void explore();
 void fleft(int);
 void fright(int);
 
-struct exp {
+struct exp
+{
     int pos;
     char op;
 } k[15];
 
-int main() {
+int main()
+{
     printf("\t\t INTERMEDIATE CODE GENERATION\n\n");
 
     // Read the expression
@@ -25,8 +27,10 @@ int main() {
     str[strcspn(str, "\n")] = 0; // Remove newline character
 
     // Identify operators in the expression
-    for (i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '=') {
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '=')
+        {
             k[j].pos = i;
             k[j++].op = str[i];
         }
@@ -39,9 +43,11 @@ int main() {
     return 0;
 }
 
-void explore() {
+void explore()
+{
     i = 0;
-    while (k[i].op != '\0') {
+    while (k[i].op != '\0')
+    {
         fleft(k[i].pos);
         fright(k[i].pos);
 
@@ -50,7 +56,8 @@ void explore() {
         printf("\t%c := %s %c %s\n", str[k[i].pos], left, k[i].op, right);
 
         // Print updated expression
-        for (j = 0; j < strlen(str); j++) {
+        for (j = 0; j < strlen(str); j++)
+        {
             if (str[j] != '$')
                 printf("%c", str[j]);
         }
@@ -59,7 +66,8 @@ void explore() {
     }
 
     fright(-1);
-    if (no == 0) {
+    if (no == 0)
+    {
         fleft(strlen(str));
         printf("\t%s := %s\n", right, left);
         exit(0);
@@ -68,13 +76,16 @@ void explore() {
     printf("\t%s := %c\n", right, str[k[--i].pos]);
 }
 
-void fleft(int x) {
+void fleft(int x)
+{
     int w = 0, flag = 0;
     x--;
 
     while (x != -1 && str[x] != '+' && str[x] != '*' && str[x] != '=' && str[x] != '\0' &&
-           str[x] != '-' && str[x] != '/' && str[x] != ':') {
-        if (str[x] != '$' && flag == 0) {
+           str[x] != '-' && str[x] != '/' && str[x] != ':')
+    {
+        if (str[x] != '$' && flag == 0)
+        {
             left[w++] = str[x];
             left[w] = '\0';
             str[x] = '$';
@@ -84,13 +95,16 @@ void fleft(int x) {
     }
 }
 
-void fright(int x) {
+void fright(int x)
+{
     int w = 0, flag = 0;
     x++;
 
     while (x != -1 && str[x] != '+' && str[x] != '*' && str[x] != '\0' &&
-           str[x] != '=' && str[x] != ':' && str[x] != '-' && str[x] != '/') {
-        if (str[x] != '$' && flag == 0) {
+           str[x] != '=' && str[x] != ':' && str[x] != '-' && str[x] != '/')
+    {
+        if (str[x] != '$' && flag == 0)
+        {
             right[w++] = str[x];
             right[w] = '\0';
             str[x] = '$';
