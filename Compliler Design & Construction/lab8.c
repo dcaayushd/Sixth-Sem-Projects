@@ -1,4 +1,4 @@
-// C Program to Implement Shift Reduce Parser  
+// C Program to Implement Shift Reduce Parser
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,8 @@ char act[15];
 
 void check();
 
-int main() {
+int main()
+{
     printf("\n\t\t SHIFT REDUCE PARSER\n");
 
     printf("\nGRAMMAR:");
@@ -27,7 +28,7 @@ int main() {
     printf("\n\tStack Implementation Table");
     printf("\nStack\t\t Input Symbol\t\t Action");
     printf("\n______\t\t ____________\t\t ______\n");
-    
+
     printf("\n $ \t\t%s$\t\t --", ip_sym);
 
     strcpy(act, "shift ");
@@ -37,7 +38,8 @@ int main() {
 
     len = strlen(ip_sym);
 
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < len; i++)
+    {
         stack[st_ptr] = ip_sym[ip_ptr];
         stack[st_ptr + 1] = '\0';
         ip_sym[ip_ptr] = ' ';
@@ -53,29 +55,33 @@ int main() {
         check();
         st_ptr++;
     }
-    
+
     st_ptr++;
     check();
 
     return 0;
 }
 
-void check() {
+void check()
+{
     int flag = 0;
     temp2[0] = stack[st_ptr];
     temp2[1] = '\0';
 
-    if ((strcasecmp(temp2, "a") == 0) || (strcasecmp(temp2, "b") == 0)) {
+    if ((strcasecmp(temp2, "a") == 0) || (strcasecmp(temp2, "b") == 0))
+    {
         stack[st_ptr] = 'E';
         printf("\n $%s\t\t%s$\t\t E->%s", stack, ip_sym, temp2);
         flag = 1;
     }
 
-    if ((strcasecmp(temp2, "+") == 0) || (strcasecmp(temp2, "*") == 0) || (strcasecmp(temp2, "/") == 0)) {
+    if ((strcasecmp(temp2, "+") == 0) || (strcasecmp(temp2, "*") == 0) || (strcasecmp(temp2, "/") == 0))
+    {
         flag = 1;
     }
 
-    if ((strcasecmp(stack, "E+E") == 0) || (strcasecmp(stack, "E/E") == 0) || (strcasecmp(stack, "E*E") == 0)) {
+    if ((strcasecmp(stack, "E+E") == 0) || (strcasecmp(stack, "E/E") == 0) || (strcasecmp(stack, "E*E") == 0))
+    {
         strcpy(stack, "E");
         st_ptr = 0;
 
@@ -89,12 +95,14 @@ void check() {
         flag = 1;
     }
 
-    if (strcasecmp(stack, "E") == 0 && ip_ptr == len) {
+    if (strcasecmp(stack, "E") == 0 && ip_ptr == len)
+    {
         printf("\n $%s\t\t%s$\t\t ACCEPT", stack, ip_sym);
         exit(0);
     }
 
-    if (flag == 0) {
+    if (flag == 0)
+    {
         printf("\n %s\t\t%s\t\t REJECT", stack, ip_sym);
         exit(0);
     }
