@@ -18,7 +18,8 @@ void addToResultSet(char[], char);
 int numOfProductions;
 char productionSet[10][10];
 
-int main() {
+int main()
+{
     int i;
     char choice;
     char c;
@@ -27,12 +28,14 @@ int main() {
     printf("How many number of productions? : ");
     scanf(" %d", &numOfProductions);
 
-    for (i = 0; i < numOfProductions; i++) { // Read production strings
+    for (i = 0; i < numOfProductions; i++)
+    { // Read production strings
         printf("Enter production Number %d : ", i + 1);
         scanf(" %s", productionSet[i]);
     }
 
-    do {
+    do
+    {
         printf("\n Find the FIRST of : ");
         scanf(" %c", &c);
 
@@ -50,7 +53,8 @@ int main() {
     return 0;
 }
 
-void FIRST(char* Result, char c) {
+void FIRST(char *Result, char c)
+{
     int i, j, k;
     char subResult[20];
     int foundEpsilon;
@@ -59,20 +63,27 @@ void FIRST(char* Result, char c) {
     Result[0] = '\0';
 
     // If X is a terminal, FIRST(X) = {X}
-    if (!isupper(c)) {
+    if (!isupper(c))
+    {
         addToResultSet(Result, c);
         return;
     }
 
     // If X is a non-terminal, process each production
-    for (i = 0; i < numOfProductions; i++) {
+    for (i = 0; i < numOfProductions; i++)
+    {
         // Find production with X as LHS
-        if (productionSet[i][0] == c) {
-            if (productionSet[i][2] == '$') { // Epsilon production
+        if (productionSet[i][0] == c)
+        {
+            if (productionSet[i][2] == '$')
+            { // Epsilon production
                 addToResultSet(Result, '$');
-            } else {
+            }
+            else
+            {
                 j = 2;
-                while (productionSet[i][j] != '\0') {
+                while (productionSet[i][j] != '\0')
+                {
                     foundEpsilon = 0;
                     FIRST(subResult, productionSet[i][j]);
 
@@ -80,8 +91,10 @@ void FIRST(char* Result, char c) {
                         addToResultSet(Result, subResult[k]);
 
                     // Check if epsilon is present in FIRST(Y)
-                    for (k = 0; subResult[k] != '\0'; k++) {
-                        if (subResult[k] == '$') {
+                    for (k = 0; subResult[k] != '\0'; k++)
+                    {
+                        if (subResult[k] == '$')
+                        {
                             foundEpsilon = 1;
                             break;
                         }
@@ -99,7 +112,8 @@ void FIRST(char* Result, char c) {
     return;
 }
 
-void addToResultSet(char Result[], char val) {
+void addToResultSet(char Result[], char val)
+{
     int k;
     for (k = 0; Result[k] != '\0'; k++)
         if (Result[k] == val)
