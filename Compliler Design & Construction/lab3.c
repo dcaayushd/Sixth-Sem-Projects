@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
-int main() {
+int main()
+{
     char a[50]; // Increased size to handle longer identifiers
     int flag = 1, i = 1;
 
@@ -17,14 +18,17 @@ int main() {
     a[strcspn(a, "\n")] = '\0'; // Remove newline character if present
 
     // Check first character
-    if (!isalpha(a[0]) && a[0] != '_') {
+    if (!isalpha(a[0]) && a[0] != '_')
+    {
         printf("\n Not a valid identifier");
         return 0;
     }
 
     // Check remaining characters
-    while (a[i] != '\0') {
-        if (!isalnum(a[i]) && a[i] != '_') {
+    while (a[i] != '\0')
+    {
+        if (!isalnum(a[i]) && a[i] != '_')
+        {
             flag = 0;
             break;
         }
